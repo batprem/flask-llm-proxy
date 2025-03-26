@@ -7,38 +7,31 @@ LLM_API_KEY = os.environ["LLM_API_KEY"]
 
 app = Flask(__name__)
 
-cors = CORS(app) # allow CORS for all domains on all routes.
-app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app)  # allow CORS for all domains on all routes.
+app.config["CORS_HEADERS"] = "Content-Type"
 
 
-@app.route('/')
+@app.route("/")
 @cross_origin()
 def home():
-    return 'Hello, World!'
+    return "Hello, World!"
 
-@app.route('/about')
+
+@app.route("/about")
 def about():
-    return 'About'
+    return "About"
 
 
 @app.route("/llm/v1/chat/completions", methods=["get", "post"])
 def chat_completion():
-    data = request.json
-    if not data:
+    json_data = request.json
+    if not json_data:
         return jsonify({"error": "Invalid request body"}), 400
-
+    print("JSON data")
+    print(json_data)
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {LLM_API_KEY}",
-    }
-    json_data = {
-        "model": "claude-3-7-sonnet-20250219",
-        "messages": [
-            {
-                "role": "user",
-                "content": "Hi",
-            },
-        ],
     }
 
     response = requests.post(
@@ -49,6 +42,7 @@ def chat_completion():
     response.raise_for_status()
     result = response.json()
     return result
+
 
 if __name__ == "__main__":
     app.run(
