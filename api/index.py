@@ -35,7 +35,7 @@ def chat_completion():
         "messages": [
             {
                 "role": "user",
-                "content": "Hi,
+                "content": "Hi",
             },
         ],
     }
