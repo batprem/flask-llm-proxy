@@ -1,9 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
-import os
 import requests
 
-LLM_API_KEY = os.environ["LLM_API_KEY"]
 
 app = Flask(__name__)
 
@@ -29,9 +27,10 @@ def chat_completion():
         return jsonify({"error": "Invalid request body"}), 400
     print("JSON data")
     print(json_data)
+    auth = request.headers.get("Authorization")
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {LLM_API_KEY}",
+        "Authorization": auth,
     }
 
     response = requests.post(
