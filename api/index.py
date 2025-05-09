@@ -38,7 +38,8 @@ def chat_completion():
         headers=headers,
         json=json_data,
     )
-    response.raise_for_status()
+    if response.status_code != 200:
+        return response.text, response.status_code
     result = response.json()
     return result
 
