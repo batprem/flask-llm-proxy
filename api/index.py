@@ -25,8 +25,7 @@ def chat_completion():
     json_data = request.json
     if not json_data:
         return jsonify({"error": "Invalid request body"}), 400
-    print("JSON data")
-    print(json_data)
+
     auth = request.headers.get("Authorization")
     headers = {
         "Content-Type": "application/json",
@@ -39,6 +38,7 @@ def chat_completion():
         json=json_data,
     )
     if response.status_code != 200:
+        print(response.text)
         return response.text, response.status_code
     result = response.json()
     return result
